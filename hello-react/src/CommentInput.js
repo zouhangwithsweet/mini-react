@@ -9,7 +9,12 @@ class CommentInput extends Component {
         }
     }
     componentDidMount() {
-        this.textarea.focus()
+        // this.textarea.focus()
+        // window.onkeydown = e => {
+        //     if (e.keyCode === 13) {
+        //         this.handleSubmit()
+        //     }
+        // }
     }
     componentWillMount() {
         this._loadUserName()
@@ -69,7 +74,9 @@ class CommentInput extends Component {
                     </div>
                 </div>
                 <div className='comment-field-button'>
-                    <button onClick={this.handleSubmit.bind(this)}>
+                    <button
+                        ref={button => this.button = button}
+                        onClick={this.handleSubmit.bind(this)}>
                         发布
                     </button>
                 </div>
