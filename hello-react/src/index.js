@@ -6,6 +6,13 @@ import CommentApp from './CommentAPP'
 import MountTime from './MountTime'
 import registerServiceWorker from './registerServiceWorker';
 import Clock from './Clock'
+import newComponent from './newComponent'
+
+class InputWitchUserName extends Component {
+    render() {
+        return <input value={this.props.data} />
+    }
+}
 
 class Index extends Component {
     constructor() {

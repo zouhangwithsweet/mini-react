@@ -9,8 +9,11 @@ export default (WrappedComponent, name) => {
             }
         }
         componentWillMount() {
-            let data = localStorage.getItem(name)
-            this.setState({ data })
+            // let data = localStorage.getItem(name)
+            // this.setState({ data })
+            ajax.get('/data/' + name, data => {
+                this.setState(data)
+            })
         }
         render() {
             return <WrappedComponent data={this.state.data} />
