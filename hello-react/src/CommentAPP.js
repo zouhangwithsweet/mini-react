@@ -25,7 +25,7 @@ class CommentApp extends Component {
     _saveComments(comments) {
         localStorage.setItem('comments', JSON.stringify(comments))
     }
-    handleSubmitComment (comment) {
+    handleSubmitComment(comment) {
         if (!comment) return
         if (!comment.userName) return alert('请输入用户名')
         if (!comment.content) return alert('请输入评论内容')
@@ -49,8 +49,8 @@ class CommentApp extends Component {
         return (
             <div className='wrapper'>
                 <CommentInput onSubmit={this.handleSubmitComment.bind(this)} />
-                <CommentList 
-                    comments={this.state.comments} 
+                <CommentList
+                    comments={this.state.comments}
                     onDeleteComment={this.handleDeleteComment.bind(this)}/>
             </div>
         )

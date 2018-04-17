@@ -9,12 +9,12 @@ class CommentInput extends Component {
         }
     }
     componentDidMount() {
-        // this.textarea.focus()
-        // window.onkeydown = e => {
-        //     if (e.keyCode === 13) {
-        //         this.handleSubmit()
-        //     }
-        // }
+        this.textarea.focus()
+        window.onkeydown = e => {
+            if (e.keyCode === 13) {
+                this.handleSubmit()
+            }
+        }
     }
     componentWillMount() {
         this._loadUserName()
@@ -36,18 +36,18 @@ class CommentInput extends Component {
             userName: e.target.value
         })
     }
-    handleContentChange (event) {
+    handleContentChange(event) {
         this.setState({
-          content: event.target.value
+            content: event.target.value
         })
     }
-    handleSubmit () {
+    handleSubmit() {
         if (this.props.onSubmit) {
-          const { userName, content } = this.state
-          this.props.onSubmit({
-              userName, 
-              content,
-              createdTime: +new Date()
+            const { userName, content } = this.state
+            this.props.onSubmit({
+                userName,
+                content,
+                createdTime: +new Date()
             })
         }
         this.setState({ content: '' })
@@ -68,7 +68,7 @@ class CommentInput extends Component {
                     <span className='comment-field-name'>评论内容：</span>
                     <div className='comment-field-input'>
                         <textarea
-                            ref={(textarea) => this.textarea = textarea}
+                            ref={textarea => this.textarea = textarea}
                             value={this.state.content}
                             onChange={this.handleContentChange.bind(this)} />
                     </div>
