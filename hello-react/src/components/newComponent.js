@@ -21,3 +21,4 @@ export default (WrappedComponent, name) => {
     }
     return NewComponent
 }
+
