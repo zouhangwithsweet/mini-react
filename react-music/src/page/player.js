@@ -9,11 +9,15 @@ class Player extends Component {
             progress: 0,
             isPlaying: false,
             volume: 0,
-            time: '0:00'
+            time: '0:00',
+            imgStyle: {
+                animation: 'change 6s linear infinite'
+            }
         }
     }
 
     componentDidMount() {
+        this.ava.style.animationPlayState = "paused"
         this.audio.addEventListener('canplay', () => {
             if (this.state.isPlaying === true) this.audio.play()
             if (this.state.isPlaying === false) {
@@ -37,11 +41,13 @@ class Player extends Component {
             this.setState({
                 isPlaying: true
             })
+            this.ava.style.animationPlayState = "running"
         } else {
             this.audio.pause()
             this.setState({
                 isPlaying: false
             })
+            this.ava.style.animationPlayState = "paused"
         }
     }
 
@@ -122,7 +128,7 @@ class Player extends Component {
                             </div>
                         </div>
                         <div className="-col-auto cover">
-                            <img src={this.props.currentMusicItem.cover}/>
+                            <img ref={ava => this.ava = ava} style={this.state.imgStyle} src={this.props.currentMusicItem.cover}/>
                         </div>
                     </div>
                 </div>

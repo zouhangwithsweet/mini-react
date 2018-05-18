@@ -11,7 +11,7 @@ class MusicList extends Component {
         let listEle = null
         listEle = this.props.musicList.map(item =>  {
             return <MusicItem
-                focus={item === this.props.currentMusicItem}
+                focus={item.id === this.props.currentMusicItem.id}
                 key={item.id} musicItem={item} />
         })
         return(

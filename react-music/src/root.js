@@ -1,12 +1,18 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Header from './components/header/header.js'
 import Player from './page/player'
 import MusicList from './page/musiclist'
-import {MUSIC_LIST} from './config/musiclist'
+import { MUSIC_LIST } from './config/musiclist'
+import { observable } from 'mobx'
+
+let currentSong = observable(MUSIC_LIST[0])
+
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
+    Switch,
+    Redirect,
     Route
-  } from 'react-router-dom'
+} from 'react-router-dom'
 
 class App extends Component {
     constructor() {
@@ -14,7 +20,7 @@ class App extends Component {
         this.state = {
             index: 0,
             musicList: MUSIC_LIST,
-            currentMusicItem: MUSIC_LIST[0]
+            currentMusicItem: currentSong
         }
     }
 
@@ -31,6 +37,7 @@ class App extends Component {
                 index: _index,
                 currentMusicItem: MUSIC_LIST[_index]
             })
+            currentSong = observable(MUSIC_LIST[_index])
         }
     }
 
@@ -47,13 +54,18 @@ class App extends Component {
                 index: _index,
                 currentMusicItem: MUSIC_LIST[_index]
             })
+            currentSong = observable(MUSIC_LIST[_index])
         }
     }
 
     render() {
         return (
             <div>
-                <Player prev={this.prevHandle.bind(this)} next={this.nextHandler.bind(this)} currentMusicItem={this.state.currentMusicItem}></Player>
+                <Player
+                    prev={this.prevHandle.bind(this)}
+                    next={this.nextHandler.bind(this)}
+                    currentMusicItem={this.state.currentMusicItem}>
+                </Player>
             </div>
         )
     }
@@ -64,32 +76,31 @@ class List extends Component {
         super()
         this.state = {
             musicList: MUSIC_LIST,
-            currentMusicItem: MUSIC_LIST[1]
+            currentMusicItem: currentSong
         }
     }
 
     render() {
         return (
             <MusicList
-                    currentMusicItem = {this.state.currentMusicItem}
-                    musicList = {this.state.musicList}></MusicList>
+                currentMusicItem = {this.state.currentMusicItem}
+                musicList = {this.state.musicList}>
+            </MusicList>
         )
     }
 }
 
-class Root extends Component {
-    render() {
-        return (
-            <Router>
-                <div>
-                    <Header></Header>
-                    <Route exact path="/" component={App}>
-                    </Route>
-                    <Route path="/list" component={List}></Route>
-                </div>
-            </Router>
-        )
-    }
-}
+const Root = () => (
+    <Router>
+        <div>
+            <Header></Header>
+            <Switch>
+                <Route exact path="/player" component={App}></Route>
+                <Route exact path="/list" component={List}></Route>
+                <Redirect to="/player"></Redirect>
+            </Switch>
+        </div>
+    </Router>
+)
 
 export default Root
