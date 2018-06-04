@@ -18,21 +18,25 @@ const appState ={
     }
 }
 
-function renderApp(appState) {
-    renderTitle(appState.title)
-    renderContent(appState.content)
+function renderApp(newAppState, oldAppState = {}) {
+    if (newAppState === oldAppState) return
+    console.log('render app....')
+    renderTitle(newAppState.title)
+    renderContent(newAppState.content)
 }
 
-function renderTitle(title) {
+function renderTitle(newTitle, oldTitle = {}) {
+    console.log('render title....')
     const titleDOM = document.getElementById('title')
-    titleDOM.innerHTML = title.text
-    titleDOM.style.color = title.color
+    titleDOM.innerHTML = newTitle.text
+    titleDOM.style.color = newTitle.color
 }
 
-function renderContent(content) {
+function renderContent(newContent, oldContent = {}) {
+    console.log('render content....')
     const contentDOM = document.getElementById('content')
-    contentDOM.innerHTML = content.text
-    contentDOM.style.color = content.color
+    contentDOM.innerHTML = newContent.text
+    contentDOM.style.color = newContent.color
 }
 
 function createStore(state, stateChanger) {
@@ -59,13 +63,30 @@ function stateChanger(state, action) {
     }
 }
 const store = createStore(appState, stateChanger)
-store.subscribe(() => renderApp(store.getState()))
+let oldState = store.getState()
+store.subscribe(() => {
+    const newState = store.getState()
+    renderApp(newState, oldState)
+    oldState = newState
+})
 
 renderApp(appState)// 首次渲染
 
 store.dispatch({ type: 'UPDATE_TITLE_TEXT', text: '《React.js 小书》' }) // 修改标题文本
-store.dispatch({ type: 'UPDATE_TITLE_COLOR', color: '#666' }) // 修改标题颜色
+// store.dispatch({ type: 'UPDATE_TITLE_COLOR', color: '#666' }) // 修改标题颜色
 
 setTimeout(() => {
     store.dispatch({ type: 'UPDATE_TITLE_TEXT', text: '《React.js 小书666》' })
 }, 2000);
+
+// function flatten(arr) {
+//     let _arr = []
+//     arr.forEach(item => {
+//         if (Array.isArray(item)) {
+//             _arr = _arr.concat(flatten(item))
+//         } else {
+//             _arr.push(item)
+//         }
+//     })
+//     return _arr
+// }
